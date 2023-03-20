@@ -5,8 +5,6 @@ const { errorHandler } = require('./middlewares/errorMiddleware');
 require("dotenv").config();
 require("colors");
 
-
-
 // ROUTES IMPORT //
 const goalRoutes = require("./routes/goalRoutes");
 
