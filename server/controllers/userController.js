@@ -94,7 +94,7 @@ const getMe = asyncHandler(async(req, res) => {
 // @route PUT /api/v1/users/me
 // @access Private
 const updateMe = asyncHandler(async(req, res) => {
-    const updatedMe = await User.findById(req.uer.id)
+    const updatedMe = await User.findByIdAndUpdate(req.user.id, req.body)
 
     if(!updatedMe){
         res.status(404);
