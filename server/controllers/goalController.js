@@ -38,7 +38,7 @@ const updateGoal = asyncHandler(async (req, res, next) => {
     );
 
     // If goal doesn't exist
-    if(!updateGoal){
+    if(!updatedGoal){
         res.status(404);
         throw new Error("Goal not found");
     }
