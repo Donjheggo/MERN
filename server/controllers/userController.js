@@ -24,7 +24,6 @@ const registerUser = asyncHandler(async(req, res) => {
         name,
         email,
         password: hashPassword(password),
-        token: generateToken(user._id)
     }) 
 
     // Validate user data
@@ -38,7 +37,8 @@ const registerUser = asyncHandler(async(req, res) => {
     res.status(201).json({
         _id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        token: generateToken(user._id)
     })
 })
 
@@ -81,7 +81,12 @@ const loginUser = asyncHandler(async(req, res) => {
 // @route GET /api/v1/users/me
 // @access Private
 const getMe = asyncHandler(async(req, res) => {
-    res.status(200).json({message: "Get user data"})
+    const {_id, name, email} = await User.findById(req.user.id)
+    res.status(200).json({
+        id: _id,
+        email: email,
+        name: name
+    })
 })
 
 module.exports = {

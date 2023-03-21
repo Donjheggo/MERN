@@ -1,18 +1,19 @@
 const { Router } = require("express");
 const { getGoals, postGoals, putGoals, deleteGoals  } = require("../controllers/goalController")
+const {authProtect} = require('../middlewares/authMiddleware');
 
 const router = Router();
 
 router
     .route("/")
-    .get(getGoals)
-    .post(postGoals)
+    .get(authProtect, getGoals)
+    .post(authProtect, postGoals)
 
 
 router
     .route("/:id")
-    .put(putGoals)
-    .delete(deleteGoals)
+    .put(authProtect, putGoals)
+    .delete(authProtect, deleteGoals)
 
 
 
