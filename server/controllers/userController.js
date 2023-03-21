@@ -3,7 +3,7 @@ const User = require("../database/models/userModel")
 const {hashPassword, comparePassword, generateToken} = require('../utils/helpers')
 
 // @desc Register new user
-// @route POST /api/v1/users
+// @route POST /api/v1/users/register
 // @access Public
 const registerUser = asyncHandler(async(req, res) => {
     const { name, email, password } = req.body
@@ -89,8 +89,24 @@ const getMe = asyncHandler(async(req, res) => {
     })
 })
 
+
+// @desc Update user data
+// @route PUT /api/v1/users/me
+// @access Private
+const updateMe = asyncHandler(async(req, res) => {
+    const updatedMe = await User.findById(req.uer.id)
+
+    if(!updatedMe){
+        res.status(404);
+        throw new Error("User not found")
+    }
+
+    res.status(200).json(updatedMe)
+})
+
 module.exports = {
     registerUser,
     loginUser,
-    getMe
+    getMe,
+    updateMe
 }
