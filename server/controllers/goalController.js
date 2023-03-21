@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler')
-const Goal = require('../models/goalModel')
+const Goal = require('../database/models/goalModel')
 
 // @desc GET goals
 // @route /api/v1/goals

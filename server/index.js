@@ -1,17 +1,18 @@
 const express = require("express");
-const { connectDB } = require('./config/db')
+
 const { errorHandler } = require('./middlewares/errorMiddleware');
 
 require("dotenv").config();
 require("colors");
+require('./database');
 
 // ROUTES IMPORT //
 const goalRoutes = require("./routes/goalRoutes");
+const userRoutes = require("./routes/userRoutes")
 
 // INITIALIZE //
 const app = express()
 const PORT = process.env.PORT
-connectDB();
 
 
 // STACK MIDDLEWARE //
@@ -23,7 +24,8 @@ app.use((req, res, next) => {
 });
 
 // ROUTES //
-app.use("/api/v1/goals", goalRoutes)
+app.use("/api/v1/goals", goalRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // ERROR HANDLER MIDDLEWARE //
 app.use(errorHandler)
