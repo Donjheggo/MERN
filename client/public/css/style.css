@@ -1,0 +1,21 @@
+a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.login-div{
+  margin-top: 10rem;
+}
+
+.login-container{
+  min-height: 300px;
+  width: 350px !important;
+}
+
+.email-input, .password-input, .name-input{
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+}
+
+
