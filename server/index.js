@@ -14,8 +14,6 @@ const userRoutes = require("./routes/userRoutes")
 const app = express()
 const PORT = process.env.PORT
 
-console.log(process.env.ORIGIN)
-
 // STACK MIDDLEWARE //
 app.use(cors({origin: process.env.ORIGIN}))
 app.use(express.json());
