@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../features/auth/authSlice";
+import Loader from '../components/Loader';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -43,7 +44,14 @@ const Register = () => {
     if (isError) {
       toast.error(message);
     }
+    if(isSuccess || user){
+      navigate('/')
+    }
   }, [formData, user, isError, isSuccess, message, navigate, dispatch]);
+
+  if(isLoading){
+    return <Loader/>
+  }
 
   return (
     <div className="container login-div d-flex justify-content-center">

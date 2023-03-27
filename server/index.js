@@ -1,5 +1,5 @@
 const express = require("express");
-
+const cors = require('cors');
 const { errorHandler } = require('./middlewares/errorMiddleware');
 
 require("dotenv").config();
@@ -14,8 +14,10 @@ const userRoutes = require("./routes/userRoutes")
 const app = express()
 const PORT = process.env.PORT
 
+console.log(process.env.ORIGIN)
 
 // STACK MIDDLEWARE //
+app.use(cors({origin: process.env.ORIGIN}))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
