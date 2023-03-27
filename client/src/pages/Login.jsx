@@ -1,29 +1,45 @@
-import React from "react";
-import { useActionData, Form, NavLink } from "react-router-dom";
-
-export const loginAction = async ({ request }) => {
-  const formData = await request.formData();
-  const email = formData.get("email");
-  const password = formData.get("password");
-  console.log(first)
-  try {
-    // const login = await loginUser({email, password})
-    // LoginAPI
-    console.log(email, password);
-    return true;
-  } catch (err) {
-    return {
-      error: err.message,
-    };
-  }
-};
+import React, {useEffect} from "react";
+import { Form, NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { login } from "../features/auth/authSlice";
+import Loader from "../components/Loader"
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    try{
+      dispatch(login({email, password}))
+    }catch(err){
+      toast.error(err.message);
+    }
+  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if(isSuccess || user){
+      navigate('/')
+    }
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  if(isLoading){
+    return <Loader/>
+  }
+
   return (
     <div className="container login-div d-flex justify-content-center">
       <div className="border border-light shadow-lg login-container p-5 rounded">
         <h4 className="text-center mb-4">SIGNIN</h4>
-        <Form action="/login" method="POST">
+        <Form onSubmit={handleSubmit}>
           <input
             name="email"
             type="email"

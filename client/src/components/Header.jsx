@@ -1,8 +1,17 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, reset } from "../features/auth/authSlice";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/");
+  };
   return (
     <header className="bg-light p-3 shadow-sm">
       <nav className="container-fluid d-flex">
@@ -10,14 +19,20 @@ const Header = () => {
           <NavLink to="/">LOGO</NavLink>
         </div>
         <div className="nav-links ms-auto">
-          <NavLink to="/login" className="me-4">
-            <FaSignInAlt />
-            &nbsp; Login
-          </NavLink>
-          <NavLink to="/register">
-            <FaUser />
-            &nbsp; Register
-          </NavLink>
+          {user ? (
+            <>
+              <button className="btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login" className="me-4">
+                &nbsp; Login
+              </NavLink>
+              <NavLink to="/register">&nbsp; Register</NavLink>
+            </>
+          )}
         </div>
       </nav>
     </header>
