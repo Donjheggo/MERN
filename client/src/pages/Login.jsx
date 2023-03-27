@@ -5,7 +5,7 @@ export const loginAction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
-  console.log("test")
+  console.log(first)
   try {
     // const login = await loginUser({email, password})
     // LoginAPI
