@@ -12,7 +12,7 @@ const Register = () => {
     (state) => state.auth
   );
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const { name, email, password, confirmPassword } = Object.fromEntries(
