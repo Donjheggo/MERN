@@ -7,7 +7,7 @@ import GoalForm from "../components/GoalForm";
 import GoalItem from "../components/GoalItem";
 import Loader from "../components/Loader";
 
-import { createGoal, getGoals, reset } from "../features/goals/goalSlice";
+import { createGoal, getGoals, deleteGoal, reset } from "../features/goals/goalSlice";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,8 +32,12 @@ const Dashboard = () => {
     console.log("edit")
   }
 
-  const handleDelete = async () => {
-    console.log("delete")
+  const handleDelete = (id) => {
+    try {
+      dispatch(deleteGoal(id));
+    } catch (err) {
+      toast.error(err.message);
+    }
   }
 
   useEffect(() => {
@@ -56,8 +60,8 @@ const Dashboard = () => {
             key={goal._id}
             text={goal.text}
             date={goal.createdAt}
-            edit={handleEdit}
-            delete={handleDelete}
+            edit={() => handleEdit()}
+            delete={() => handleDelete(goal._id)}
           />
         ))
       ) 
