@@ -15,7 +15,6 @@ const GoalItem = (props) => {
 
   const editSubmit = (e, id) => {
     e.preventDefault()
-    console.log(textData)
     try{
       dispatch(updateGoal({_id:id, text: textData}))
       $('#'+modalID).modal('hide');
@@ -23,8 +22,6 @@ const GoalItem = (props) => {
       toast.error(err)
     }
   }
-
-  useEffect( () => {console.log(textData)}, [textData])
 
   const formattedDate = new Date(props.date).toLocaleString()
   return (
