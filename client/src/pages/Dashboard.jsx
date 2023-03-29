@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isError) {
-      console.log(message);
+      toast.error("error");
     }
     if (!user) {
       navigate("/login");
@@ -50,8 +50,8 @@ const Dashboard = () => {
   }, [user, navigate, isError, message, dispatch]);
 
   const goalElements = 
-    goals.length 
-    ? (goals.map((goal) => (
+    goals.length ? 
+    (goals.map((goal) => (
           <GoalItem 
             key={goal._id}
             id={goal._id}

@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { updateGoal } from "../features/goals/goalSlice";
 
 
 const GoalItem = (props) => {
   const dispatch = useDispatch()
-  const [text, setText] = useState(props.text)
+  const [textData, settextData] = useState(props.text)
 
   const handleChange = (e) => {
     const {value} = e.target
-    setText(value)
+    settextData(value)
   }
 
   const editSubmit = (e, id) => {
     e.preventDefault()
-    // try{
-    //   dispatch(updateGoal(id))
-    // }catch(err){
-    //   toast.error(err)
-    // }
+    console.log(textData)
+    try{
+      dispatch(updateGoal({_id:id, text: textData}))
+      $('#'+modalID).modal('hide');
+    }catch(err){
+      toast.error(err)
+    }
   }
+
+  useEffect( () => {console.log(textData)}, [textData])
 
   const formattedDate = new Date(props.date).toLocaleString()
   return (
@@ -28,7 +32,7 @@ const GoalItem = (props) => {
       <div className="card-header">{formattedDate}</div>
       <div className="card-body">{props.text}</div>
       <div className="card-footer">
-        <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editModal">
+        <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target={`#modalId-${props.id}`}>
           Edit
         </button>
         <button className="ms-2 btn btn-warning" onClick={props.delete}>
@@ -37,7 +41,7 @@ const GoalItem = (props) => {
       </div>
 
     {/* MODAL */}
-      <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id={`modalId-${props.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
@@ -46,11 +50,11 @@ const GoalItem = (props) => {
             </div>
             <form onSubmit={(e) => editSubmit(e, props.id)}>
               <div className="modal-body">
-                <input name="text" className="form-control" value={text} onChange={handleChange}/>
+                <input name="text" className="form-control" value={textData} onChange={handleChange}/>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button className="btn btn-primary">Save changes</button>
+                <button className="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
               </div>
             </form>
           </div>
