@@ -19,7 +19,7 @@ app.use(cors({origin: process.env.ORIGIN}))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-    console.log(`${req.method}: ${req.path}`)
+    console.log(`${req.method}: ${req.path} - ${JSON.stringify(req.body)}`)
     next();
 });
 
