@@ -21,6 +21,7 @@ const Header = () => {
         <div className="nav-links ms-auto">
           {user ? (
             <>
+              {user.name} |
               <button className="btn" onClick={handleLogout}>
                 Logout
               </button>

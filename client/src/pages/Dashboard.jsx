@@ -1,62 +1,83 @@
-import React, {useEffect} from 'react';
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-import GoalForm from '../components/GoalForm';
+import GoalForm from "../components/GoalForm";
+import GoalItem from "../components/GoalItem";
 import Loader from "../components/Loader";
 
-import { createGoal } from "../features/goals/goalSlice";
+import { createGoal, getGoals, reset } from "../features/goals/goalSlice";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user } = useSelector(
+    (state) => state.auth);
+  const { goals, isLoading, isError, message } = useSelector(
+    (state) => state.goals);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const {text} = Object.fromEntries(
-      formData.entries()
-    );
-    console.log(user, text)
-    try{
-      dispatch(createGoal({user, text: text}))
-    }catch(err){
+    const { text } = Object.fromEntries(formData.entries());
+    try {
+      dispatch(createGoal({ user, text: text }));
+    } catch (err) {
       toast.error(err.message);
     }
+  };
+
+  const handleEdit = async () => {
+    console.log("edit")
   }
 
-  useEffect( () => {
-    if(!user){
-      navigate("/login") 
-    }
-  }, [user, navigate])
-
+  const handleDelete = async () => {
+    console.log("delete")
+  }
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      console.log(message);
     }
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+    if (!user) {
+      navigate("/login");
+    }
+    dispatch(getGoals());
+    return () => {
+      dispatch(reset);
+    };
+  }, [user, navigate, isError, message, dispatch]);
+
+  const goalElements = 
+    goals.length 
+    ? (goals.map((goal) => (
+          <GoalItem 
+            key={goal._id}
+            text={goal.text}
+            date={goal.createdAt}
+            edit={handleEdit}
+            delete={handleDelete}
+          />
+        ))
+      ) 
+    : (<p>No goals added</p>);
 
   if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <>
-      <section className='heading text-center'>
-        <p>Welcome {user && user.name}</p>
-        <p>Goals Dashboard</p>
-        <div>
-          <GoalForm handleSubmit={handleSubmit} />
+    <div>
+      <h3 className="text-center">Goals Dashboard</h3>
+      <div>
+        <GoalForm handleSubmit={handleSubmit} />
+        <div className="row container-fluid mt-3">
+          {goalElements}
         </div>
-      </section>
-    </>
-  )
-}
+      </div>
+    </div>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

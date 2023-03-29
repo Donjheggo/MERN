@@ -2,26 +2,21 @@ import axios from "axios";
 
 const Goal_API = "/api/v1/goals";
 
-// // Get Goal
-// const getGoal = async (user, token) => {
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${token}`
-//     }
-//   }
-//   try {
-//     const response = await axios.get(Goal_API, config);
-//     if (response.data) {
-//       const userGoals = response.data.filter((goal) => {
-//         goal.user === user;
-//       });
-//       return userGoals;
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     throw err;
-//   }
-// };
+// Get Goal
+const getGoals = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  try {
+    const response = await axios.get(Goal_API, config);
+    return response.data
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
 
 // Create Goal
 const createGoal = async (goalData, token) => {
@@ -68,7 +63,7 @@ const createGoal = async (goalData, token) => {
 // };
 
 const goalService = {
-  // getGoal,
+  getGoals,
   createGoal,
   // updateGoal,
   // deleteGoal,

@@ -7,7 +7,7 @@ const MainLayout = () => {
   return (
     <div>
       <Header />
-      <div className="container-fluid px-5">
+      <div className="container-fluid p-4">
         <Outlet />
       </div>
       <Footer />
