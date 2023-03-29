@@ -43,21 +43,21 @@ export const createGoal = createAsyncThunk(
   }
 );
 
-// // Update Goal
-// export const updateGoal = createAsyncThunk(
-//     "goal/update",
-//     async (goalData, goal_id, thunkAPI) => {
-//         try {
-//             const token = thunkAPI.getState().auth.user.token
-//             return await goalService.updateGoal(goalData, goal_id)
-//         } catch (err) {
-//             const message =
-//             (err.response && err.response.data && err.response.data.message) ||
-//             err.message ||
-//             err.toString();
-//         return thunkAPI.rejectWithValue(message);
-//         }
-// });
+// Update Goal
+export const updateGoal = createAsyncThunk(
+    "goal/update",
+    async (goalData, goal_id, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await goalService.updateGoal(goalData, goal_id, token)
+        } catch (err) {
+            const message =
+            (err.response && err.response.data && err.response.data.message) ||
+            err.message ||
+            err.toString();
+        return thunkAPI.rejectWithValue(message);
+        }
+});
 
 // Delete Goal
 export const deleteGoal = createAsyncThunk(
@@ -112,19 +112,19 @@ export const goalSlice = createSlice({
         state.message = action.payload;
       })
 
-      // .addCase(updateGoal.pending, (state) => {
-      //     state.isLoading = true;
-      // })
-      // .addCase(updateGoal.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isSuccess = true;
-      //   state.goals = action.payload;
-      // })
-      // .addCase(updateGoal.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = true;
-      //   state.message = action.payload;
-      // })
+      .addCase(updateGoal.pending, (state) => {
+          state.isLoading = true;
+      })
+      .addCase(updateGoal.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.goals = action.payload;
+      })
+      .addCase(updateGoal.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
 
       .addCase(deleteGoal.pending, (state) => {
         state.isLoading = true;

@@ -28,10 +28,6 @@ const Dashboard = () => {
     }
   };
 
-  const handleEdit = async () => {
-    console.log("edit")
-  }
-
   const handleDelete = (id) => {
     try {
       dispatch(deleteGoal(id));
@@ -58,9 +54,9 @@ const Dashboard = () => {
     ? (goals.map((goal) => (
           <GoalItem 
             key={goal._id}
+            id={goal._id}
             text={goal.text}
             date={goal.createdAt}
-            edit={() => handleEdit()}
             delete={() => handleDelete(goal._id)}
           />
         ))
